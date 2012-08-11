@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h2>What is the answer to life the universe and everything?</h2>
+    <input type="text" id="answer" />
+    <h3 id="result">Awaiting your answer.</h3>
+    <h4 id="warning"></h4>
+</body>
+<script src="http://code.jquery.com/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script src="stutter.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        var $answer = $('#answer'),
+            $result = $('#result'),
+            $warning = $('#warning'),
+            answerStutter = new Stutter(function () { return 15000 * Math.random(); });
+
+        answerStutter.always(function (data) {
+            $result.text('Please wait while we see if "' + data + '" is the right answer...');
+        });
+
+        answerStutter.cancel(function (data) {
+            $warning.text('You have interupted processing. I said please wait.');
+        });
+
+        answerStutter.complete(function (data) {
+            $warning.text('');
+            if (parseInt(data, 10) === 42) {
+                $result.text('Yes, "42" is the correct answer!');
+            }
+            else {
+                $result.text('"' + (data || '') + '" is the wrong answer. Please try again.');
+            }
+        });
+
+        $answer.keyup(function () {
+            answerStutter.set(function () { return $answer.val(); });
+        });
+
+
+    });
+</script>
+</html>
