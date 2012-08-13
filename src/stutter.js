@@ -1,4 +1,4 @@
-﻿(function (window) {
+(function (window) {
     'use strict';
     var pushCallback = function (collection, callback, context) {
         collection.push({ callback: callback, context: context });
@@ -32,6 +32,7 @@
 
     Stutter.prototype.always = function (callback, context) {
         pushCallback(this._state.always, callback, context);
+        return this;
     };
 
     Stutter.prototype.set = function (data) {
